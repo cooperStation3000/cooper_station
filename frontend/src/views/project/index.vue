@@ -8,8 +8,8 @@
 
 <script lang="ts" setup>
 import { NDataTable, DataTableColumns, NButton, NSpace, NPagination } from 'naive-ui';
-import { h, reactive, ref } from 'vue';
-import { T_project_item } from '@/rpc';
+import { T_project_item } from '@/shared/DTO/Project';
+import { ref, h, reactive } from 'vue';
 
 const columns = ref<DataTableColumns<T_project_item>>([
   {
@@ -59,7 +59,7 @@ const pageInfo = reactive({
 
 
 const createProject = () => {
-  data.push({ id: 123, projectName: 'asdf', projectOwner: 'asdf', createTime: 'asdfad', updateTime: 'afas' });
+  data.push({ id: 123, projectName: 'asdf', projectOwner: 'asdf', createTime: 'asdfad', updateTime: 'afas', isDel: false });
 };
 
 </script>

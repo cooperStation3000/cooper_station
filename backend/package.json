@@ -22,6 +22,7 @@
     "typescript": "^4.7.4"
   },
   "dependencies": {
-    "tsrpc": "^3.4.1"
+    "tsrpc": "^3.4.1",
+    "tsrpc-proto": "^1.4.2"
   }
 }

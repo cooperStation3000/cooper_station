@@ -4,4 +4,5 @@ export type T_project_item = {
   projectOwner: string
   createTime: string
   updateTime: string
+  isDel: boolean
 }
