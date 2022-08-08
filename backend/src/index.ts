@@ -13,9 +13,6 @@ const server = new HttpServer(serviceProto, {
 async function init() {
     // Auto implement APIs
     await server.autoImplementApi(path.resolve(__dirname, 'api'));
-
-    // TODO
-    // Prepare something... (e.g. connect the db)
 };
 
 // Entry function
