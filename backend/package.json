@@ -10,7 +10,8 @@
     "test": "mocha test/**/*.test.ts",
     "proto": "tsrpc-cli proto",
     "sync": "tsrpc-cli sync",
-    "api": "tsrpc-cli api"
+    "api": "tsrpc-cli api",
+    "sql": "dbml2sql src/plugins/db/db.dbml --mysql -o ./src/plugins/db/db.sql"
   },
   "devDependencies": {
     "@types/mocha": "^8.2.3",
