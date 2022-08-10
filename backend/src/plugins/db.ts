@@ -1,2 +1,9 @@
-import { PrismaClient } from '@prisma/client'
-const prisma = new PrismaClient()
+import { PrismaClient } from '@prisma/client';
+
+export class Global {
+  static prisma: PrismaClient;
+
+  static async initDb() {
+    this.prisma = new PrismaClient();
+  }
+}

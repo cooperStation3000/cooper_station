@@ -1,5 +1,5 @@
 import { BaseListRequest } from '../base';
-import { T_project_item } from '../../DAO/Project';
+import { T_project_item } from '../../DTO/Project';
 
 export interface ReqList extends BaseListRequest {
 
