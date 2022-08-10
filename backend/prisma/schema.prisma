@@ -1,0 +1,20 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model project {
+  id            Int      @id @default(autoincrement())
+  project_name  String?  @db.VarChar(30)
+  project_owner String?  @db.VarChar(30)
+  create_time   String?  @db.VarChar(30)
+  update_time   String?  @db.VarChar(30)
+  isDel         Boolean? @default(false)
+
+  @@index([project_name], map: "project_name")
+  @@index([project_owner], map: "project_owner")
+}
