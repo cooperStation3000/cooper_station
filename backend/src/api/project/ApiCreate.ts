@@ -1,9 +1,18 @@
-import { Global } from './../../plugins/db';
-import { ApiCall } from 'tsrpc';
+import { ApiCall, TsrpcErrorType } from 'tsrpc';
+import { DateFmt, getDate } from '../../plugins/date';
 import { ReqCreate, ResCreate } from '../../shared/protocols/project/PtlCreate';
+import ProjectDao from '../../DAO/project.dao';
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime';
+import ErrorHandler from '../../plugins/errorHandler';
 
 export default async function (call: ApiCall<ReqCreate, ResCreate>) {
-  const { projectName, projectOwner } = call.req;
-  const res = await Global.prisma.project.create({ data: { project_name: projectName, project_owner: projectOwner } });
-  call.succ(res);
+  const create_time = getDate(DateFmt['YYYY-MM-DD HH:mm:ss']);
+  try {
+    await ProjectDao.createOne(Object.assign({}, call.req, { createTime: create_time, updateTime: create_time }));
+    await call.succ({ message: '成功' });
+  } catch (e) {
+    if (e instanceof PrismaClientKnownRequestError) {
+      new ErrorHandler(e).execute(call);
+    }
+  }
 }

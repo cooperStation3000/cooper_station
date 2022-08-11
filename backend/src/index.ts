@@ -1,5 +1,5 @@
+import path from 'path'
 import { Global } from './plugins/db';
-import * as path from 'path';
 import { HttpServer } from 'tsrpc';
 import { serviceProto } from './shared/protocols/serviceProto';
 

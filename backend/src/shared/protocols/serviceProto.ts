@@ -24,6 +24,7 @@ export interface ServiceType {
 }
 
 export const serviceProto: ServiceProto<ServiceType> = {
+    "version": 1,
     "services": [
         {
             "id": 0,
@@ -113,7 +114,24 @@ export const serviceProto: ServiceProto<ServiceType> = {
             ]
         },
         "base/BaseResponse": {
-            "type": "Interface"
+            "type": "Interface",
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "message",
+                    "type": {
+                        "type": "String"
+                    }
+                },
+                {
+                    "id": 1,
+                    "name": "data",
+                    "type": {
+                        "type": "Any"
+                    },
+                    "optional": true
+                }
+            ]
         },
         "project/PtlList/ReqList": {
             "type": "Interface",

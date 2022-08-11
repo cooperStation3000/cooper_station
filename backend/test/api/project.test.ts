@@ -14,7 +14,7 @@ describe('Api Project', () => {
   });
 
   it('create Project', async () => {
-    const res = await client.callApi('project/Create', { projectName: 'test', projectOwner: 'wyswill' });
+    const res = await client.callApi('project/Create', { projectName: 'test2', projectOwner: 'wyswill' });
     assert(res.isSucc);
   });
 });

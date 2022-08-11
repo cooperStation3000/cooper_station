@@ -9,7 +9,7 @@ datasource db {
 
 model project {
   id            Int      @id @default(autoincrement())
-  project_name  String?  @db.VarChar(30)
+  project_name  String?  @db.VarChar(30) @unique
   project_owner String?  @db.VarChar(30)
   create_time   String?  @db.VarChar(30)
   update_time   String?  @db.VarChar(30)

@@ -9,7 +9,7 @@ const tsrpcConf: TsrpcConfig = {
             apiDir: 'src/api',   // API dir
             docDir: 'docs',     // API documents dir
             ptlTemplate: CodeTemplate.getExtendedPtl(),
-            // msgTemplate: CodeTemplate.getExtendedMsg(),
+            msgTemplate: CodeTemplate.getExtendedMsg(),
         }
     ],
     // Sync shared code
