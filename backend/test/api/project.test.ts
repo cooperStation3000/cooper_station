@@ -1,4 +1,4 @@
-import { HttpClient } from 'tsrpc';
+import { ApiReturn, HttpClient } from 'tsrpc';
 import assert from 'assert';
 import { serviceProto } from '../../src/shared/protocols/serviceProto';
 
@@ -8,13 +8,20 @@ describe('Api Project', () => {
     logger: console
   });
 
-  it('get List', async function () {
-    const res = await client.callApi('project/List', { size: 10, offset: 0 });
+  let res: ApiReturn<any>;
+  afterEach(() => {
     assert(res.isSucc);
   });
 
+  it('get List', async function () {
+    res = await client.callApi('project/List', { size: 10, offset: 0 });
+  });
+
   it('create Project', async () => {
-    const res = await client.callApi('project/Create', { projectName: 'test2', projectOwner: 'wyswill' });
-    assert(res.isSucc);
+    res = await client.callApi('project/Create', { projectName: 'test2', projectOwner: 'wyswill' });
+  });
+
+  it('update proejct', async () => {
+    res = await client.callApi('project/Update', { id: 1, info: { projectName: 'test' } });
   });
 });

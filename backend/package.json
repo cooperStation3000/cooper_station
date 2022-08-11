@@ -8,6 +8,7 @@
     "build": "tsrpc-cli build",
     "doc": "tsrpc-cli doc",
     "test": "mocha test/**/*.test.ts",
+    "test:one":"mocha -f",
     "proto": "tsrpc-cli proto",
     "sync": "tsrpc-cli sync",
     "api": "tsrpc-cli api",
