@@ -210,33 +210,19 @@ export const serviceProto: ServiceProto<ServiceType> = {
                     "id": 1,
                     "name": "info",
                     "type": {
-                        "type": "Interface",
-                        "properties": [
-                            {
-                                "id": 0,
-                                "name": "projectName",
-                                "type": {
-                                    "type": "String"
-                                },
-                                "optional": true
+                        "type": "Partial",
+                        "target": {
+                            "target": {
+                                "type": "Reference",
+                                "target": "../DTO/Project/T_project_item"
                             },
-                            {
-                                "id": 1,
-                                "name": "projectOwner",
-                                "type": {
-                                    "type": "String"
-                                },
-                                "optional": true
-                            },
-                            {
-                                "id": 2,
-                                "name": "isDel",
-                                "type": {
-                                    "type": "Boolean"
-                                },
-                                "optional": true
-                            }
-                        ]
+                            "keys": [
+                                "projectName",
+                                "projectOwner",
+                                "isDel"
+                            ],
+                            "type": "Pick"
+                        }
                     }
                 }
             ]
