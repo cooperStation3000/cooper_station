@@ -2,7 +2,7 @@ import { ApiReturn, HttpClient } from 'tsrpc';
 import assert from 'assert';
 import { serviceProto } from '../../src/shared/protocols/serviceProto';
 
-describe('Api Project', () => {
+describe('Api container', () => {
   let client = new HttpClient(serviceProto, {
     server: 'http://127.0.0.1:3000',
     logger: console
@@ -14,7 +14,7 @@ describe('Api Project', () => {
   });
 
   it('get List', async function () {
-    res = await client.callApi('project/List', { size: 10, offset: 0 });
+    res = await client.callApi('container/List', { size: 10, offset: 0 });
   });
 
   it('create Project', async () => {

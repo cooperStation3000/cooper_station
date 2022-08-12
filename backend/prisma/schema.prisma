@@ -11,7 +11,7 @@ model project {
   id           Int         @id @default(autoincrement())
   projectName  String      @unique @map("project_name") @db.VarChar(30)
   projectOwner String      @map("project_owner") @db.VarChar(30)
-  repo_url     String      @default("") @db.MediumText
+  repoUrl     String       @map("repo_url") @default("") @db.MediumText
   createTime   DateTime    @default(now()) @map("create_time")
   updateTime   DateTime    @updatedAt @map("update_time")
   isDel        Boolean     @default(false) @map("is_del")

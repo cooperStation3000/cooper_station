@@ -1,21 +1,36 @@
 import { ServiceProto } from 'tsrpc-proto';
-import { ReqCreate, ResCreate } from './project/PtlCreate';
-import { ReqList, ResList } from './project/PtlList';
-import { ReqUpdate, ResUpdate } from './project/PtlUpdate';
+import { ReqCreate, ResCreate } from './container/PtlCreate';
+import { ReqList, ResList } from './container/PtlList';
+import { ReqUpdate, ResUpdate } from './container/PtlUpdate';
+import { ReqCreate as ReqCreate_1, ResCreate as ResCreate_1 } from './project/PtlCreate';
+import { ReqList as ReqList_1, ResList as ResList_1 } from './project/PtlList';
+import { ReqUpdate as ReqUpdate_1, ResUpdate as ResUpdate_1 } from './project/PtlUpdate';
 
 export interface ServiceType {
     api: {
-        "project/Create": {
+        "container/Create": {
             req: ReqCreate,
             res: ResCreate
         },
-        "project/List": {
+        "container/List": {
             req: ReqList,
             res: ResList
         },
-        "project/Update": {
+        "container/Update": {
             req: ReqUpdate,
             res: ResUpdate
+        },
+        "project/Create": {
+            req: ReqCreate_1,
+            res: ResCreate_1
+        },
+        "project/List": {
+            req: ReqList_1,
+            res: ResList_1
+        },
+        "project/Update": {
+            req: ReqUpdate_1,
+            res: ResUpdate_1
         }
     },
     msg: {
@@ -24,8 +39,23 @@ export interface ServiceType {
 }
 
 export const serviceProto: ServiceProto<ServiceType> = {
-    "version": 5,
+    "version": 8,
     "services": [
+        {
+            "id": 3,
+            "name": "container/Create",
+            "type": "api"
+        },
+        {
+            "id": 4,
+            "name": "container/List",
+            "type": "api"
+        },
+        {
+            "id": 5,
+            "name": "container/Update",
+            "type": "api"
+        },
         {
             "id": 0,
             "name": "project/Create",
@@ -43,18 +73,28 @@ export const serviceProto: ServiceProto<ServiceType> = {
         }
     ],
     "types": {
-        "project/PtlCreate/ReqCreate": {
-            "target": {
-                "type": "Reference",
-                "target": "../DTO/Project/T_project_item"
-            },
-            "keys": [
-                "projectName",
-                "projectOwner"
-            ],
-            "type": "Pick"
+        "container/PtlCreate/ReqCreate": {
+            "type": "Interface",
+            "extends": [
+                {
+                    "id": 0,
+                    "type": {
+                        "target": {
+                            "type": "Reference",
+                            "target": "../DTO/dto/T_container"
+                        },
+                        "keys": [
+                            "projectId",
+                            "tag",
+                            "port",
+                            "nginxUrl"
+                        ],
+                        "type": "Pick"
+                    }
+                }
+            ]
         },
-        "../DTO/Project/T_project_item": {
+        "../DTO/dto/T_container": {
             "type": "Interface",
             "properties": [
                 {
@@ -66,41 +106,48 @@ export const serviceProto: ServiceProto<ServiceType> = {
                 },
                 {
                     "id": 1,
-                    "name": "projectName",
+                    "name": "projectId",
                     "type": {
-                        "type": "String"
+                        "type": "Number"
                     }
                 },
                 {
                     "id": 2,
-                    "name": "projectOwner",
-                    "type": {
-                        "type": "String"
-                    }
-                },
-                {
-                    "id": 6,
-                    "name": "repo_url",
+                    "name": "tag",
                     "type": {
                         "type": "String"
                     }
                 },
                 {
                     "id": 3,
-                    "name": "createTime",
+                    "name": "port",
                     "type": {
-                        "type": "String"
+                        "type": "Number"
                     }
                 },
                 {
                     "id": 4,
-                    "name": "updateTime",
+                    "name": "nginxUrl",
                     "type": {
                         "type": "String"
                     }
                 },
                 {
                     "id": 5,
+                    "name": "createTime",
+                    "type": {
+                        "type": "Date"
+                    }
+                },
+                {
+                    "id": 6,
+                    "name": "updateTime",
+                    "type": {
+                        "type": "Date"
+                    }
+                },
+                {
+                    "id": 7,
                     "name": "isDel",
                     "type": {
                         "type": "Boolean"
@@ -108,7 +155,7 @@ export const serviceProto: ServiceProto<ServiceType> = {
                 }
             ]
         },
-        "project/PtlCreate/ResCreate": {
+        "container/PtlCreate/ResCreate": {
             "type": "Interface",
             "extends": [
                 {
@@ -140,7 +187,7 @@ export const serviceProto: ServiceProto<ServiceType> = {
                 }
             ]
         },
-        "project/PtlList/ReqList": {
+        "container/PtlList/ReqList": {
             "type": "Interface",
             "extends": [
                 {
@@ -171,8 +218,17 @@ export const serviceProto: ServiceProto<ServiceType> = {
                 }
             ]
         },
-        "project/PtlList/ResList": {
+        "container/PtlList/ResList": {
             "type": "Interface",
+            "extends": [
+                {
+                    "id": 0,
+                    "type": {
+                        "type": "Reference",
+                        "target": "base/BaseListResponse"
+                    }
+                }
+            ],
             "properties": [
                 {
                     "id": 0,
@@ -181,7 +237,22 @@ export const serviceProto: ServiceProto<ServiceType> = {
                         "type": "Array",
                         "elementType": {
                             "type": "Reference",
-                            "target": "../DTO/Project/T_project_item"
+                            "target": "../DTO/dto/T_container"
+                        }
+                    }
+                }
+            ]
+        },
+        "base/BaseListResponse": {
+            "type": "Interface",
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "list",
+                    "type": {
+                        "type": "Array",
+                        "elementType": {
+                            "type": "Any"
                         }
                     }
                 },
@@ -190,6 +261,176 @@ export const serviceProto: ServiceProto<ServiceType> = {
                     "name": "total",
                     "type": {
                         "type": "Number"
+                    }
+                }
+            ]
+        },
+        "container/PtlUpdate/ReqUpdate": {
+            "type": "Interface",
+            "extends": [
+                {
+                    "id": 0,
+                    "type": {
+                        "type": "Reference",
+                        "target": "base/BaseRequest"
+                    }
+                }
+            ],
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "id",
+                    "type": {
+                        "type": "Number"
+                    }
+                },
+                {
+                    "id": 1,
+                    "name": "info",
+                    "type": {
+                        "type": "Partial",
+                        "target": {
+                            "target": {
+                                "type": "Reference",
+                                "target": "../DTO/dto/T_container"
+                            },
+                            "keys": [
+                                "tag",
+                                "port",
+                                "nginxUrl"
+                            ],
+                            "type": "Pick"
+                        }
+                    }
+                }
+            ]
+        },
+        "base/BaseRequest": {
+            "type": "Interface"
+        },
+        "container/PtlUpdate/ResUpdate": {
+            "type": "Interface",
+            "extends": [
+                {
+                    "id": 0,
+                    "type": {
+                        "type": "Reference",
+                        "target": "base/BaseResponse"
+                    }
+                }
+            ]
+        },
+        "project/PtlCreate/ReqCreate": {
+            "target": {
+                "type": "Reference",
+                "target": "../DTO/dto/T_project_item"
+            },
+            "keys": [
+                "projectName",
+                "projectOwner",
+                "repoUrl"
+            ],
+            "type": "Pick"
+        },
+        "../DTO/dto/T_project_item": {
+            "type": "Interface",
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "id",
+                    "type": {
+                        "type": "Number"
+                    }
+                },
+                {
+                    "id": 1,
+                    "name": "projectName",
+                    "type": {
+                        "type": "String"
+                    }
+                },
+                {
+                    "id": 2,
+                    "name": "projectOwner",
+                    "type": {
+                        "type": "String"
+                    }
+                },
+                {
+                    "id": 7,
+                    "name": "repoUrl",
+                    "type": {
+                        "type": "String"
+                    }
+                },
+                {
+                    "id": 4,
+                    "name": "createTime",
+                    "type": {
+                        "type": "String"
+                    }
+                },
+                {
+                    "id": 5,
+                    "name": "updateTime",
+                    "type": {
+                        "type": "String"
+                    }
+                },
+                {
+                    "id": 6,
+                    "name": "isDel",
+                    "type": {
+                        "type": "Boolean"
+                    }
+                }
+            ]
+        },
+        "project/PtlCreate/ResCreate": {
+            "type": "Interface",
+            "extends": [
+                {
+                    "id": 0,
+                    "type": {
+                        "type": "Reference",
+                        "target": "base/BaseResponse"
+                    }
+                }
+            ]
+        },
+        "project/PtlList/ReqList": {
+            "type": "Interface",
+            "extends": [
+                {
+                    "id": 0,
+                    "type": {
+                        "type": "Reference",
+                        "target": "base/BaseListRequest"
+                    }
+                }
+            ]
+        },
+        "project/PtlList/ResList": {
+            "type": "Interface",
+            "extends": [
+                {
+                    "id": 0,
+                    "type": {
+                        "type": "Reference",
+                        "target": "base/BaseListResponse"
+                    }
+                }
+            ],
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "list",
+                    "type": {
+                        "type": "Array",
+                        "elementType": {
+                            "type": "Reference",
+                            "target": "../DTO/dto/T_project_item"
+                        }
                     }
                 }
             ]
@@ -221,7 +462,7 @@ export const serviceProto: ServiceProto<ServiceType> = {
                         "target": {
                             "target": {
                                 "type": "Reference",
-                                "target": "../DTO/Project/T_project_item"
+                                "target": "../DTO/dto/T_project_item"
                             },
                             "keys": [
                                 "projectName",
@@ -233,9 +474,6 @@ export const serviceProto: ServiceProto<ServiceType> = {
                     }
                 }
             ]
-        },
-        "base/BaseRequest": {
-            "type": "Interface"
         },
         "project/PtlUpdate/ResUpdate": {
             "type": "Interface",
