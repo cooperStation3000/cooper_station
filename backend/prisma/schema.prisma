@@ -8,13 +8,30 @@ datasource db {
 }
 
 model project {
-  id            Int      @id @default(autoincrement())
-  project_name  String?  @db.VarChar(30) @unique
-  project_owner String?  @db.VarChar(30)
-  create_time   String?  @db.VarChar(30)
-  update_time   String?  @db.VarChar(30)
-  isDel         Boolean? @default(false)
+  id            Int         @id @default(autoincrement())
+  project_name  String      @unique @db.VarChar(30)
+  project_owner String      @db.VarChar(30)
+  repo_url      String      @default("") @db.MediumText
+  create_time   DateTime    @default(now())
+  update_time   DateTime    @updatedAt
+  isDel         Boolean     @default(false)
+  contaienr     contaienr[]
 
   @@index([project_name], map: "project_name")
   @@index([project_owner], map: "project_owner")
+}
+
+model contaienr {
+  id Int @id @default(autoincrement())
+
+  project    project @relation(fields: [project_id], references: [id])
+  project_id Int
+
+  tag         String   @default("") @db.VarChar(30)
+  port        Int      @default(8080)
+  nginx_url   String   @default("") @db.MediumText
+
+  create_time DateTime @default(now())
+  update_time DateTime @updatedAt
+  isDel       Boolean  @default(false)
 }

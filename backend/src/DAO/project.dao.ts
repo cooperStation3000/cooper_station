@@ -5,6 +5,7 @@ import { T_project_item } from '../shared/DTO/Project';
 import { ReqCreate } from '../shared/protocols/project/PtlCreate';
 import { Global } from '../plugins/db';
 import { DateFmt, getDate } from '../plugins/date';
+import dayjs from 'dayjs';
 
 type T_UPDATE = Nullable<Pick<T_project_item, 'projectName' | 'projectOwner' | 'isDel'>>;
 
@@ -12,16 +13,20 @@ export default class ProjectDao {
   static convert(data: project[]): T_project_item[] {
     return data.map(ele => {
       const newVal: T_project_item = {
-        createTime: '',
         id: 0,
         isDel: false,
         projectName: '',
         projectOwner: '',
+        createTime: '',
         updateTime: ''
       };
       Object.keys(ele).forEach((key: string) => {
+        const newK = _.camelCase(key);
         // @ts-ignore
-        newVal[_.camelCase(key)] = ele[key] === null ? '' : ele[key];
+        newVal[newK] = ele[key] === null ? '' : ele[key];
+        if (newK === 'createTime' || newK === 'updateTime') {
+          newVal[newK] = dayjs(newVal[newK]).format(DateFmt['YYYY-MM-DD HH:mm:ss']);
+        }
       });
       return newVal;
     });
@@ -34,23 +39,17 @@ export default class ProjectDao {
     });
   }
 
-  static async createOne({
-    projectName,
-    projectOwner,
-    updateTime,
-    createTime
-  }: ReqCreate & { createTime: string; updateTime: string }) {
+  static async createOne({ projectName, projectOwner }: ReqCreate) {
     return await Global.prisma.project.create({
-      data: { project_name: projectName, project_owner: projectOwner, create_time: createTime, update_time: updateTime }
+      data: { project_name: projectName, project_owner: projectOwner }
     });
   }
 
   static async updateOne(data: { id: number } & T_UPDATE) {
     const db = Global.prisma.project;
-    const update_time = getDate(DateFmt['YYYY-MM-DD HH:mm:ss']);
     return await db.update({
       where: { id: data.id },
-      data: { project_name: data.projectName, isDel: data.isDel, project_owner: data.projectOwner, update_time }
+      data: { project_name: data.projectName, isDel: data.isDel, project_owner: data.projectOwner }
     });
   }
 }

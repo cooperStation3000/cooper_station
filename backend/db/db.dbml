@@ -2,6 +2,7 @@ Table project {
    id int [pk, increment]
    project_name varchar(30) [note: '项目名称']
    project_owner varchar(30) [note:' 项目拥有人']
+   rrepo_url varchar(255) [note: 'git仓库地址']
    create_time varchar(30)
    update_time varchar(30)
    isDel boolean [default: false]
