@@ -17,6 +17,7 @@ export default class ProjectDao {
         isDel: false,
         projectName: '',
         projectOwner: '',
+        repo_url: '',
         createTime: '',
         updateTime: ''
       };
@@ -25,6 +26,7 @@ export default class ProjectDao {
         // @ts-ignore
         newVal[newK] = ele[key] === null ? '' : ele[key];
         if (newK === 'createTime' || newK === 'updateTime') {
+          // @ts-ignore
           newVal[newK] = dayjs(newVal[newK]).format(DateFmt['YYYY-MM-DD HH:mm:ss']);
         }
       });
@@ -35,13 +37,13 @@ export default class ProjectDao {
   static findOne(id?: number, projectName?: string) {
     const db = Global.prisma.project;
     return db.findFirst({
-      where: { id, isDel: false, project_name: projectName }
+      where: { id, isDel: false, projectName }
     });
   }
 
   static async createOne({ projectName, projectOwner }: ReqCreate) {
     return await Global.prisma.project.create({
-      data: { project_name: projectName, project_owner: projectOwner }
+      data: { projectName, projectOwner }
     });
   }
 
@@ -49,7 +51,7 @@ export default class ProjectDao {
     const db = Global.prisma.project;
     return await db.update({
       where: { id: data.id },
-      data: { project_name: data.projectName, isDel: data.isDel, project_owner: data.projectOwner }
+      data: { projectName: data.projectName, isDel: data.isDel, projectOwner: data.projectOwner }
     });
   }
 }

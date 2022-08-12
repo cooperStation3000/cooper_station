@@ -8,30 +8,30 @@ datasource db {
 }
 
 model project {
-  id            Int         @id @default(autoincrement())
-  project_name  String      @unique @db.VarChar(30)
-  project_owner String      @db.VarChar(30)
-  repo_url      String      @default("") @db.MediumText
-  create_time   DateTime    @default(now())
-  update_time   DateTime    @updatedAt
-  isDel         Boolean     @default(false)
-  contaienr     contaienr[]
+  id           Int         @id @default(autoincrement())
+  projectName  String      @unique @map("project_name") @db.VarChar(30)
+  projectOwner String      @map("project_owner") @db.VarChar(30)
+  repo_url     String      @default("") @db.MediumText
+  createTime   DateTime    @default(now()) @map("create_time")
+  updateTime   DateTime    @updatedAt @map("update_time")
+  isDel        Boolean     @default(false) @map("is_del")
+  contaienr    contaienr[]
 
-  @@index([project_name], map: "project_name")
-  @@index([project_owner], map: "project_owner")
+  @@index([projectName], map: "project_name")
+  @@index([projectOwner], map: "project_owner")
 }
 
 model contaienr {
   id Int @id @default(autoincrement())
 
-  project    project @relation(fields: [project_id], references: [id])
-  project_id Int
+  project   project @relation(fields: [projectId], references: [id])
+  projectId Int     @map("project_id")
 
-  tag         String   @default("") @db.VarChar(30)
-  port        Int      @default(8080)
-  nginx_url   String   @default("") @db.MediumText
+  tag      String @default("") @db.VarChar(30)
+  port     Int    @default(8080)
+  nginxUrl String @default("") @map("nginx_url") @db.MediumText
 
-  create_time DateTime @default(now())
-  update_time DateTime @updatedAt
-  isDel       Boolean  @default(false)
+  createTime DateTime @default(now()) @map("create_time")
+  updateTime DateTime @updatedAt @map("update_time")
+  isDel      Boolean  @default(false) @map("is_del")
 }
