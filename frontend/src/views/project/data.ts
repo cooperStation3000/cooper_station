@@ -1,11 +1,11 @@
 import { h, reactive, ref } from 'vue';
-import { DataTableColumns, FormRules, NButton, useNotification } from 'naive-ui';
+import { createDiscreteApi, DataTableColumns, FormRules, NButton, useNotification } from 'naive-ui';
 import { T_project_item } from '@/shared/DTO/dto';
 import client from '@/util/rpcClient';
 import { T_porject_create } from '@/shared/DTO/project.dto';
 import { NotificationApiInjection } from 'naive-ui/es/notification/src/NotificationProvider';
 
-export const getColumns = (not: NotificationApiInjection) => ref<DataTableColumns<T_project_item>>([
+export const columns = ref<DataTableColumns<T_project_item>>([
   {
     title: 'id',
     key: 'id',
@@ -42,11 +42,12 @@ export const getColumns = (not: NotificationApiInjection) => ref<DataTableColumn
     align: 'center',
     render(row: T_project_item) {
       return h('list', [
-        h(NButton, { strong: true, tertiary: true, type: 'error', onClick: async () => {await deleteOne(row, not);} }, '删除')
+        h(NButton, { strong: true, tertiary: true, type: 'error', onClick: async () => {await deleteOne(row);} }, '删除')
       ]);
     }
   }
 ]);
+
 export const options = reactive({
   label: 'Cooper Admin',
   value: 'CooperAdmin'
@@ -82,12 +83,14 @@ export const rules: FormRules = {
   ]
 };
 
-async function deleteOne(row: T_project_item, note: NotificationApiInjection) {
+async function deleteOne(row: T_project_item) {
   const res = await client.callApi('project/Update', { id: row.id, info: { isDel: true } });
   if (res.isSucc) {
+    const note = createDiscreteApi(['notification']).notification;
     note.success({
       content: '删除成功!',
-      keepAliveOnHover: true
+      keepAliveOnHover: true,
+      duration: 3000
     });
   }
 }

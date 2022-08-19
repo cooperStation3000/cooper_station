@@ -1,4 +1,4 @@
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, Prisma } from '@prisma/client';
 import { Docker } from 'node-docker-api';
 
 export class Global {
@@ -12,3 +12,4 @@ export class Global {
 
   static initDocker() {this.docker = new Docker({ socketPath: '/var/run/docker.sock' });}
 }
+

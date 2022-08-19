@@ -14,6 +14,7 @@ const server = new HttpServer(serviceProto, {
 async function init() {
   // Auto implement APIs
   await server.autoImplementApi(path.resolve(__dirname, 'api'));
+
   Global.initDocker();
   await Global.initDb();
 }

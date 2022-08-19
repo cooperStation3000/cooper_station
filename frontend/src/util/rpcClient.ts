@@ -1,5 +1,6 @@
 import { HttpClient } from 'tsrpc-browser';
 import { serviceProto } from '../shared/protocols/serviceProto';
+import { createDiscreteApi } from 'naive-ui';
 
 // Create Client
 const client = new HttpClient(serviceProto, {
@@ -10,8 +11,12 @@ const client = new HttpClient(serviceProto, {
 client.flows.preApiReturnFlow.push(v => {
   if (v.return.err) {
     const { type, message } = v.return.err;
-    //TODO: 将错误进行弹窗提示
-    // console.error(`${type}:${message}`);
+    const note = createDiscreteApi(['notification']).notification;
+    note.error({
+      title: type,
+      content: message,
+      duration: 4000
+    });
   }
   return v;
 });

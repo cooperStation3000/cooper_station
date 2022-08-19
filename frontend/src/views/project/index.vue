@@ -59,11 +59,9 @@ import {
 import { onMounted, reactive, ref } from 'vue';
 import { T_project_item } from '@/shared/DTO/dto';
 import { T_porject_create } from '@/shared/DTO/project.dto';
-import { createProject, getColumns, getList, options, rules } from './data';
+import { createProject, columns, getList, options, rules } from './data';
 import client from '@/util/rpcClient';
 
-const note = useNotification();
-const columns = getColumns(note);
 let data = ref<T_project_item[]>([]);
 const pageInfo = reactive({
   offset: 0,

@@ -1,4 +1,3 @@
-import { T_porject_create } from './../shared/DTO/project.dto';
 import { T_project_item } from '../shared/DTO/dto';
 import { ReqCreate } from '../shared/protocols/project/PtlCreate';
 import { Global } from '../plugins/db';
@@ -8,9 +7,9 @@ import { ReqSearch } from '../shared/protocols/project/PtlSearch';
 type T_UPDATE = Partial<Pick<T_project_item, 'projectName' | 'projectOwner' | 'isDel'>>;
 
 export default class ProjectDao extends BaseDao {
-  static findOne(id?: number, projectName?: string) {
+  static async findOne(id?: number, projectName?: string) {
     const db = Global.prisma.project;
-    return db.findFirst({
+    return await db.findFirst({
       where: { id, isDel: false, projectName }
     });
   }
