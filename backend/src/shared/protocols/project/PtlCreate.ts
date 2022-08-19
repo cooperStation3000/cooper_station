@@ -1,7 +1,5 @@
-import { T_project_item } from '../../DTO/dto';
 import { BaseResponse } from '../base';
+import { T_porject_create } from '../../DTO/project.dto';
 
-export type ReqCreate = Pick<T_project_item, 'projectName' | 'projectOwner' | 'repoUrl'>
-
+export interface ReqCreate extends T_porject_create {}
 export interface ResCreate extends BaseResponse {}
-

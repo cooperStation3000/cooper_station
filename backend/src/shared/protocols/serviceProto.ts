@@ -39,7 +39,7 @@ export interface ServiceType {
 }
 
 export const serviceProto: ServiceProto<ServiceType> = {
-    "version": 9,
+    "version": 10,
     "services": [
         {
             "id": 3,
@@ -273,13 +273,16 @@ export const serviceProto: ServiceProto<ServiceType> = {
             "type": "Interface",
             "extends": [
                 {
-                    "id": 0,
+                    "id": 1,
                     "type": {
                         "type": "Reference",
-                        "target": "base/BaseRequest"
+                        "target": "../DTO/container.dto/T_container_update_one"
                     }
                 }
-            ],
+            ]
+        },
+        "../DTO/container.dto/T_container_update_one": {
+            "type": "Interface",
             "properties": [
                 {
                     "id": 0,
@@ -292,25 +295,19 @@ export const serviceProto: ServiceProto<ServiceType> = {
                     "id": 1,
                     "name": "info",
                     "type": {
-                        "type": "Partial",
                         "target": {
-                            "target": {
-                                "type": "Reference",
-                                "target": "../DTO/dto/T_container"
-                            },
-                            "keys": [
-                                "tag",
-                                "port",
-                                "nginxUrl"
-                            ],
-                            "type": "Pick"
-                        }
+                            "type": "Reference",
+                            "target": "../DTO/dto/T_container"
+                        },
+                        "keys": [
+                            "tag",
+                            "port",
+                            "nginxUrl"
+                        ],
+                        "type": "Pick"
                     }
                 }
             ]
-        },
-        "base/BaseRequest": {
-            "type": "Interface"
         },
         "container/PtlUpdate/ResUpdate": {
             "type": "Interface",
@@ -325,6 +322,18 @@ export const serviceProto: ServiceProto<ServiceType> = {
             ]
         },
         "project/PtlCreate/ReqCreate": {
+            "type": "Interface",
+            "extends": [
+                {
+                    "id": 0,
+                    "type": {
+                        "type": "Reference",
+                        "target": "../DTO/project.dto/T_porject_create"
+                    }
+                }
+            ]
+        },
+        "../DTO/project.dto/T_porject_create": {
             "target": {
                 "type": "Reference",
                 "target": "../DTO/dto/T_project_item"
@@ -478,6 +487,9 @@ export const serviceProto: ServiceProto<ServiceType> = {
                     }
                 }
             ]
+        },
+        "base/BaseRequest": {
+            "type": "Interface"
         },
         "project/PtlUpdate/ResUpdate": {
             "type": "Interface",
