@@ -13,7 +13,7 @@
     </NGrid>
 
     <NDataTable :columns="columns" :data="data" bordered/>
-    <n-pagination v-model:page="pageInfo.offset" :page-count="pageInfo.total"/>
+    <n-pagination v-model:page="pageInfo.offset" :page-count="pageInfo.total" @update:page="flep"/>
     <NModal
       v-model:show="showAdd"
       :model="projectData"
@@ -86,7 +86,7 @@ onMounted(async () => {
 const fetch = async () => {
   const res = await getList(pageInfo);
   data.value = res?.list ?? [];
-  pageInfo.total = Math.round((res?.total ?? 0) / 10) || 1;
+  pageInfo.total = Math.floor((res?.total ?? 0) / 10) + 1;
 };
 const submitCallback = () => {
   formRef.value?.validate(async isError => {
@@ -106,16 +106,21 @@ const negative = () => {
     repoUrl: ''
   };
 };
-
 const search = async () => {
   const search = searchWord.value.trim();
   if (!search) await fetch();
   else {
     const { res } = await client.callApi('project/Search', { searchWord: search, offset: pageInfo.offset, size: pageInfo.size });
     data.value = res?.list ?? [];
-    pageInfo.total = Math.round((res?.total ?? 0) / 10) || 1;
+    pageInfo.total = Math.floor((res?.total ?? 0) / 10) + 1;
   }
 };
+const flep = async (page: number) => {
+  pageInfo.offset = page;
+  if (searchWord.value) await search();
+  else await fetch();
+};
+
 </script>
 
 <style scoped lang="less"></style>
