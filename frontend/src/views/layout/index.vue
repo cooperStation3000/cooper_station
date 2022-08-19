@@ -6,7 +6,10 @@
       </NLayoutSider>
       <NLayoutContent embedded content-style="width:85vw; padding: 24px">
         <NCard>
-          <router-view/>
+          <NNotificationProvider>
+            <router-view/>
+            <div class="not"></div>
+          </NNotificationProvider>
         </NCard>
       </NLayoutContent>
     </NLayout>
@@ -14,7 +17,7 @@
 </template>
 
 <script lang="ts" setup>
-import { NCard, NLayout, NLayoutContent, NLayoutSider, NMenu, NSpace, MenuInst } from 'naive-ui';
+import { NCard, NLayout, NLayoutContent, NLayoutSider, NMenu, NSpace, MenuInst, NNotificationProvider } from 'naive-ui';
 import { routes } from '@/router';
 import _ from 'lodash';
 import { ref } from 'vue';

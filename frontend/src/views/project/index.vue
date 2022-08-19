@@ -13,7 +13,7 @@
       @positive-click="submitCallback"
       @negative-click="negative"
     >
-      <n-form ref="formRef">
+      <n-form ref="formRef" :rules="rules" :model="projectData">
         <n-form-item path="projectName" label="项目名称">
           <n-input v-model:value="projectData.projectName" placeholder="请输入项目名称" maxlength="30"/>
         </n-form-item>
@@ -29,12 +29,14 @@
 </template>
 
 <script lang="ts" setup>
-import { FormInst, NButton, NDataTable, NForm, NFormItem, NInput, NModal, NPagination, NSelect, NSpace } from 'naive-ui';
+import { FormInst, NButton, NDataTable, NForm, NFormItem, NInput, NModal, NPagination, NSelect, NSpace, useNotification } from 'naive-ui';
 import { onMounted, reactive, ref } from 'vue';
 import { T_project_item } from '@/shared/DTO/dto';
 import { T_porject_create } from '@/shared/DTO/project.dto';
-import { columns, createProject, getList, options } from './data';
+import { createProject, getColumns, getList, options, rules } from './data';
 
+const note = useNotification();
+const columns = getColumns(note);
 let data = ref<T_project_item[]>([]);
 const pageInfo = reactive({
   offset: 0,
@@ -48,19 +50,25 @@ let projectData = ref<T_porject_create>({
 });
 const showAdd = ref(false);
 const formRef = ref<FormInst>();
+onMounted(async () => {
+  await fetch();
+});
+
+
 const fetch = async () => {
   const res = await getList(pageInfo);
   data.value = res?.list ?? [];
   pageInfo.total = res?.total ?? 0;
 };
-
-onMounted(async () => {
-  await fetch();
-});
-const submitCallback = async () => {
-  await createProject(projectData.value);
-  negative();
-  await fetch();
+const submitCallback = () => {
+  formRef.value?.validate(async isError => {
+    if (!isError) {
+      await createProject(projectData.value);
+      negative();
+      await fetch();
+    }
+  });
+  return false;
 };
 const negative = () => {
   showAdd.value = false;
