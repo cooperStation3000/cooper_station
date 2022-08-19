@@ -12,13 +12,18 @@ export const getColumns = (not: NotificationApiInjection) => ref<DataTableColumn
     align: 'center'
   },
   {
-    title: 'projectName',
+    title: '项目名称',
     key: 'projectName',
     align: 'center'
   },
   {
-    title: 'projectOwner',
+    title: '项目管理员',
     key: 'projectOwner',
+    align: 'center'
+  },
+  {
+    title: '项目仓库地址',
+    key: 'repoUrl',
     align: 'center'
   },
   {
@@ -37,8 +42,6 @@ export const getColumns = (not: NotificationApiInjection) => ref<DataTableColumn
     align: 'center',
     render(row: T_project_item) {
       return h('list', [
-        h(NButton, { strong: true, tertiary: true, type: 'info', onClick: () => {} }, '详情'),
-        h(NButton, { strong: true, tertiary: true, type: 'success', onClick: () => {} }, '编辑'),
         h(NButton, { strong: true, tertiary: true, type: 'error', onClick: async () => {await deleteOne(row, not);} }, '删除')
       ]);
     }

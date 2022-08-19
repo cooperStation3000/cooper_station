@@ -1,6 +1,17 @@
 <template>
   <NSpace vertical>
-    <NButton type="success" @click="showAdd = true">创建项目</NButton>
+    <NGrid :cols="6">
+      <NGi>
+        <NButton type="success" @click="showAdd = true">创建项目</NButton>
+      </NGi>
+      <NGi>
+        <NInputGroup>
+          <NInput round v-model:value="searchWord"/>
+          <NButton type="primary" @click="search">搜索项目</NButton>
+        </NInputGroup>
+      </NGi>
+    </NGrid>
+
     <NDataTable :columns="columns" :data="data" bordered/>
     <n-pagination v-model:page="pageInfo.offset" :page-count="pageInfo.total"/>
     <NModal
@@ -29,11 +40,27 @@
 </template>
 
 <script lang="ts" setup>
-import { FormInst, NButton, NDataTable, NForm, NFormItem, NInput, NModal, NPagination, NSelect, NSpace, useNotification } from 'naive-ui';
+import {
+  FormInst,
+  NButton,
+  NDataTable,
+  NForm,
+  NFormItem,
+  NInput,
+  NModal,
+  NPagination,
+  NSelect,
+  NSpace,
+  useNotification,
+  NGrid,
+  NGi,
+  NInputGroup
+} from 'naive-ui';
 import { onMounted, reactive, ref } from 'vue';
 import { T_project_item } from '@/shared/DTO/dto';
 import { T_porject_create } from '@/shared/DTO/project.dto';
 import { createProject, getColumns, getList, options, rules } from './data';
+import client from '@/util/rpcClient';
 
 const note = useNotification();
 const columns = getColumns(note);
@@ -50,15 +77,16 @@ let projectData = ref<T_porject_create>({
 });
 const showAdd = ref(false);
 const formRef = ref<FormInst>();
+const searchWord = ref('');
+
 onMounted(async () => {
   await fetch();
 });
 
-
 const fetch = async () => {
   const res = await getList(pageInfo);
   data.value = res?.list ?? [];
-  pageInfo.total = res?.total ?? 0;
+  pageInfo.total = Math.round((res?.total ?? 0) / 10) || 1;
 };
 const submitCallback = () => {
   formRef.value?.validate(async isError => {
@@ -77,6 +105,16 @@ const negative = () => {
     projectOwner: '',
     repoUrl: ''
   };
+};
+
+const search = async () => {
+  const search = searchWord.value.trim();
+  if (!search) await fetch();
+  else {
+    const { res } = await client.callApi('project/Search', { searchWord: search, offset: pageInfo.offset, size: pageInfo.size });
+    data.value = res?.list ?? [];
+    pageInfo.total = Math.round((res?.total ?? 0) / 10) || 1;
+  }
 };
 </script>
 

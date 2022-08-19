@@ -4,6 +4,7 @@ import { ReqList, ResList } from './container/PtlList';
 import { ReqUpdate, ResUpdate } from './container/PtlUpdate';
 import { ReqCreate as ReqCreate_1, ResCreate as ResCreate_1 } from './project/PtlCreate';
 import { ReqList as ReqList_1, ResList as ResList_1 } from './project/PtlList';
+import { ReqSearch, ResSearch } from './project/PtlSearch';
 import { ReqUpdate as ReqUpdate_1, ResUpdate as ResUpdate_1 } from './project/PtlUpdate';
 
 export interface ServiceType {
@@ -27,6 +28,10 @@ export interface ServiceType {
         "project/List": {
             req: ReqList_1,
             res: ResList_1
+        },
+        "project/Search": {
+            req: ReqSearch,
+            res: ResSearch
         },
         "project/Update": {
             req: ReqUpdate_1,
@@ -64,6 +69,11 @@ export const serviceProto: ServiceProto<ServiceType> = {
         {
             "id": 1,
             "name": "project/List",
+            "type": "api"
+        },
+        {
+            "id": 6,
+            "name": "project/Search",
             "type": "api"
         },
         {
@@ -424,6 +434,52 @@ export const serviceProto: ServiceProto<ServiceType> = {
             ]
         },
         "project/PtlList/ResList": {
+            "type": "Interface",
+            "extends": [
+                {
+                    "id": 0,
+                    "type": {
+                        "type": "Reference",
+                        "target": "base/BaseListResponse"
+                    }
+                }
+            ],
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "list",
+                    "type": {
+                        "type": "Array",
+                        "elementType": {
+                            "type": "Reference",
+                            "target": "../DTO/dto/T_project_item"
+                        }
+                    }
+                }
+            ]
+        },
+        "project/PtlSearch/ReqSearch": {
+            "type": "Interface",
+            "extends": [
+                {
+                    "id": 0,
+                    "type": {
+                        "type": "Reference",
+                        "target": "base/BaseListRequest"
+                    }
+                }
+            ],
+            "properties": [
+                {
+                    "id": 0,
+                    "name": "searchWord",
+                    "type": {
+                        "type": "String"
+                    }
+                }
+            ]
+        },
+        "project/PtlSearch/ResSearch": {
             "type": "Interface",
             "extends": [
                 {

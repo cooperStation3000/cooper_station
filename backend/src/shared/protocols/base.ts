@@ -18,6 +18,6 @@ export interface BaseListRequest {
 
 
 export interface BaseListResponse {
-  list: any[];
+  list: unknown[];
   total: number;
 }
