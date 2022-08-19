@@ -1,4 +1,4 @@
-import path from 'path'
+import path from 'path';
 import { Global } from './plugins/db';
 import { HttpServer } from 'tsrpc';
 import { serviceProto } from './shared/protocols/serviceProto';
@@ -14,6 +14,7 @@ const server = new HttpServer(serviceProto, {
 async function init() {
   // Auto implement APIs
   await server.autoImplementApi(path.resolve(__dirname, 'api'));
+  Global.initDocker();
   await Global.initDb();
 }
 
@@ -22,4 +23,5 @@ async function main() {
   await init();
   await server.start();
 }
+
 main();

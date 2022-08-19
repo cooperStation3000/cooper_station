@@ -39,7 +39,7 @@ export interface ServiceType {
 }
 
 export const serviceProto: ServiceProto<ServiceType> = {
-    "version": 8,
+    "version": 9,
     "services": [
         {
             "id": 3,
@@ -77,22 +77,26 @@ export const serviceProto: ServiceProto<ServiceType> = {
             "type": "Interface",
             "extends": [
                 {
-                    "id": 0,
+                    "id": 1,
                     "type": {
-                        "target": {
-                            "type": "Reference",
-                            "target": "../DTO/dto/T_container"
-                        },
-                        "keys": [
-                            "projectId",
-                            "tag",
-                            "port",
-                            "nginxUrl"
-                        ],
-                        "type": "Pick"
+                        "type": "Reference",
+                        "target": "../DTO/container.dto/T_container_create"
                     }
                 }
             ]
+        },
+        "../DTO/container.dto/T_container_create": {
+            "target": {
+                "type": "Reference",
+                "target": "../DTO/dto/T_container"
+            },
+            "keys": [
+                "projectId",
+                "tag",
+                "port",
+                "nginxUrl"
+            ],
+            "type": "Pick"
         },
         "../DTO/dto/T_container": {
             "type": "Interface",
@@ -136,14 +140,14 @@ export const serviceProto: ServiceProto<ServiceType> = {
                     "id": 5,
                     "name": "createTime",
                     "type": {
-                        "type": "Date"
+                        "type": "String"
                     }
                 },
                 {
                     "id": 6,
                     "name": "updateTime",
                     "type": {
-                        "type": "Date"
+                        "type": "String"
                     }
                 },
                 {

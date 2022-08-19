@@ -9,6 +9,5 @@ export default async function (call: ApiCall<ReqList, ResList>) {
     Global.prisma.contaienr.findMany({ take: size, skip: offset, where: { isDel: false } }),
     Global.prisma.contaienr.count({ where: { isDel: false } })
   ]);
-  call.logger.log(`[ list ]===>`, list);
   await call.succ({ list: ProjectDao.convert(list), total });
 }

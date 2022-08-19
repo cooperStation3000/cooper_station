@@ -22,7 +22,7 @@ export type T_container = {
   tag: string
   port: number
   nginxUrl: string
-  createTime: Date
-  updateTime: Date
+  createTime: string
+  updateTime: string
   isDel: boolean
 }
