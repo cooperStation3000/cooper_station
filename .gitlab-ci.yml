@@ -8,12 +8,13 @@ server_install:
   tags:
     - release
   script:
-    - cd frontend && npm i
-    - cd frontend && npx vue-cli-service build
-cache:
-  key: 'frontend_module'
-  paths:
-    - frontend/node_modules
+    - cd frontend
+    - npm  i --registry  https://registry.npmmirror.com/
+    - npx vue-cli-service build
+  cache:
+    key: 'frontend_module'
+    paths:
+      - frontend/node_modules
 #docker_build_job:
 #  image: docker:latest
 #  stage: docker_build
