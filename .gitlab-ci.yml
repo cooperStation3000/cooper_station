@@ -10,7 +10,9 @@ server_install:
   script:
     - cd frontend && npm i
     - cd frontend && npx vue-cli-service build
-  cache:
+cache:
+  key: 'frontend_module'
+  paths:
     - frontend/node_modules
 #docker_build_job:
 #  image: docker:latest
