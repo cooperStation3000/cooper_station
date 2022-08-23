@@ -8,7 +8,10 @@ server_install:
   tags:
     - release
   script:
-    - cd frontend && sh ./build.sh
+    - cd frontend && npm i
+    - cd frontend && npx vue-cli-service build
+  cache:
+    - frontend/node_modules
 #docker_build_job:
 #  image: docker:latest
 #  stage: docker_build
