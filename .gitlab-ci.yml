@@ -13,30 +13,23 @@ server_install:
     - npx vue-cli-service build
     - tar -cvf  release.tar.gz ./dist
   cache:
-    key: 'frontend_module'
+    key: 'frontend'
     paths:
       - frontend/node_modules
       - frontend/release.tar.gz
+    policy: push
+
 docker_build_job:
   image: docker:latest
   stage: docker_build
   tags:
     - release
   cache:
-    key: 'frontend_module'
+    key: 'frontend'
     paths:
       - frontend/node_modules
       - frontend/release.tar.gz
+    policy: pull
   script:
-    - ls -al ./frontend
-#deploy_k8s_job:
-#  image: registry.cn-hangzhou.aliyuncs.com/haoshuwei24/kubectl:1.16.6
-#  stage: deploy_k8s
-#  tags:
-#    - k8s-runner
-#  script:
-#    - mkdir -p /etc/deploy
-#    - echo $kube_config |base64 -d > $KUBECONFIG
-#    - sed -i "s/IMAGE_TAG/$CI_PIPELINE_ID/g" deployment.yaml
-#    - cat deployment.yaml
-#    - kubectl apply -f deployment.yaml
+    - docker build -t registry.docker.cooper.com:5000/Cooper_base .
+    - docker push registry.docker.cooper.com:5000/Cooper_base

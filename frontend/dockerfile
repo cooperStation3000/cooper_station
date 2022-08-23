@@ -1,0 +1,6 @@
+FROM node:12
+
+RUN mkdir /home
+WORKDIR /home
+ADD ./release.tar.gz /
+RUN ls -al
