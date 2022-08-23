@@ -15,6 +15,9 @@ server_install:
     key: 'frontend_module'
     paths:
       - frontend/node_modules
+  artifacts:
+    paths:
+      - frontend/dist
 #docker_build_job:
 #  image: docker:latest
 #  stage: docker_build
