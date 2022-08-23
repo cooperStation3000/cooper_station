@@ -31,5 +31,5 @@ docker_build_job:
       - frontend/release.tar.gz
     policy: pull
   script:
-    - docker build -t registry.docker.cooper.com:5000/Cooper_base .
+    - docker build --tag registry.docker.cooper.com:5000/Cooper_base .
     - docker push registry.docker.cooper.com:5000/Cooper_base
