@@ -11,17 +11,19 @@ server_install:
     - cd frontend
     - npm  i --registry  https://registry.npmmirror.com/
     - npx vue-cli-service build
+    - tar -cvf  release.tar.gz ./dist
   cache:
     key: 'frontend_module'
     paths:
       - frontend/node_modules
+      - frontend/release.tar.gz
 docker_build_job:
   image: docker:latest
   stage: docker_build
   tags:
     - release
   script:
-    - docker
+    - ls -al ./frontend
 #deploy_k8s_job:
 #  image: registry.cn-hangzhou.aliyuncs.com/haoshuwei24/kubectl:1.16.6
 #  stage: deploy_k8s
