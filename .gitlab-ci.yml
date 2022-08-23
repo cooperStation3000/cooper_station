@@ -15,20 +15,13 @@ server_install:
     key: 'frontend_module'
     paths:
       - frontend/node_modules
-  artifacts:
-    paths:
-      - frontend/dist
-#docker_build_job:
-#  image: docker:latest
-#  stage: docker_build
-#  tags:
-#    - release
-#  script:
-#    - docker login -u $REGISTRY_USERNAME -p $REGISTRY_PASSWORD registry.cn-beijing.aliyuncs.com
-#    - mkdir target
-#    - cp /opt/cache/demo.war target/demo.war
-#    - docker build -t registry.cn-beijing.aliyuncs.com/haoshuwei24/gitlabci-java-demo:$CI_PIPELINE_ID .
-#    - docker push registry.cn-beijing.aliyuncs.com/haoshuwei24/gitlabci-java-demo:$CI_PIPELINE_ID
+docker_build_job:
+  image: docker:latest
+  stage: docker_build
+  tags:
+    - release
+  script:
+    - docker
 #deploy_k8s_job:
 #  image: registry.cn-hangzhou.aliyuncs.com/haoshuwei24/kubectl:1.16.6
 #  stage: deploy_k8s
