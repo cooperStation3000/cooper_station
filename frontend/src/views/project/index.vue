@@ -6,7 +6,7 @@
       </NGi>
       <NGi>
         <NInputGroup>
-          <NInput round v-model:value="searchWord"/>
+          <NInput round v-model:value="searchWord" clearable/>
           <NButton type="primary" @click="search">搜索项目</NButton>
         </NInputGroup>
       </NGi>
@@ -51,23 +51,15 @@ import {
   NPagination,
   NSelect,
   NSpace,
-  useNotification,
   NGrid,
   NGi,
   NInputGroup
 } from 'naive-ui';
-import { onMounted, reactive, ref } from 'vue';
-import { T_project_item } from '@/shared/DTO/dto';
+import { onMounted, ref } from 'vue';
 import { T_porject_create } from '@/shared/DTO/project.dto';
-import { createProject, columns, getList, options, rules } from './data';
+import { createProject, columns, getList, options, rules, data, pageInfo, fetch } from './data';
 import client from '@/util/rpcClient';
 
-let data = ref<T_project_item[]>([]);
-const pageInfo = reactive({
-  offset: 0,
-  size: 10,
-  total: 0
-});
 let projectData = ref<T_porject_create>({
   projectName: '',
   projectOwner: '',
@@ -81,11 +73,6 @@ onMounted(async () => {
   await fetch();
 });
 
-const fetch = async () => {
-  const res = await getList(pageInfo);
-  data.value = res?.list ?? [];
-  pageInfo.total = Math.floor((res?.total ?? 0) / 10) + 1;
-};
 const submitCallback = () => {
   formRef.value?.validate(async isError => {
     if (!isError) {

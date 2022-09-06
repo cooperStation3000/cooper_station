@@ -3,7 +3,6 @@ import { createDiscreteApi, DataTableColumns, FormRules, NButton, useNotificatio
 import { T_project_item } from '@/shared/DTO/dto';
 import client from '@/util/rpcClient';
 import { T_porject_create } from '@/shared/DTO/project.dto';
-import { NotificationApiInjection } from 'naive-ui/es/notification/src/NotificationProvider';
 
 export const columns = ref<DataTableColumns<T_project_item>>([
   {
@@ -53,6 +52,20 @@ export const options = reactive({
   value: 'CooperAdmin'
 });
 
+export let data = ref<T_project_item[]>([]);
+
+export const pageInfo = reactive({
+  offset: 0,
+  size: 10,
+  total: 0
+});
+
+export const fetch = async () => {
+  const res = await getList(pageInfo);
+  data.value = res?.list ?? [];
+  pageInfo.total = Math.floor((res?.total ?? 0) / 10) + 1;
+};
+
 export const getList = async (pageInfo: { offset: number, size: number }) => {
   const { res } = await client.callApi('project/List', {
     offset: pageInfo.offset,
@@ -92,5 +105,6 @@ async function deleteOne(row: T_project_item) {
       keepAliveOnHover: true,
       duration: 3000
     });
+    await fetch();
   }
 }
