@@ -3,6 +3,7 @@ import { createDiscreteApi, DataTableColumns, FormRules, NButton, useNotificatio
 import { T_project_item } from '@/shared/DTO/dto';
 import client from '@/util/rpcClient';
 import { T_porject_create } from '@/shared/DTO/project.dto';
+import { useRouter } from 'vue-router';
 
 export const columns = ref<DataTableColumns<T_project_item>>([
   {
@@ -41,11 +42,17 @@ export const columns = ref<DataTableColumns<T_project_item>>([
     align: 'center',
     render(row: T_project_item) {
       return h('list', [
+        h(NButton, { strong: true, tertiary: true, type: 'error', onClick: async () => {jump(row);} }, '详情'),
         h(NButton, { strong: true, tertiary: true, type: 'error', onClick: async () => {await deleteOne(row);} }, '删除')
       ]);
     }
   }
 ]);
+const router = useRouter();
+async function jump(row: T_project_item) {
+  console.log(`[ router ]===>`, router);
+  // await router.push({ name: 'projectDetail', query: { id: row.id } });
+}
 
 export const options = reactive({
   label: 'Cooper Admin',

@@ -34,6 +34,11 @@ export const routes: Array<RouteRecordRaw & MenuOption> = [
         key: 'projectList',
         label: '项目列表',
         component: import('@/views/project/index.vue')
+      },
+      {
+        path: 'detail',
+        name: 'projectDetail',
+        component: import('@/views/project/index.vue')
       }
     ]
   }
