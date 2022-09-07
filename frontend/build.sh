@@ -2,7 +2,7 @@
 echo 'install ...'
 npm i
 echo 'vue building...';
-vue-cli-service build;
+npx vue-cli-service build;
 echo 'ziping ...'
 tar -cvf  release.tar.gz ./dist
 
